@@ -6,6 +6,7 @@ import requests
 import csv
 import time as timelibrary
 from os import path
+import os
 
 input_directory = "./"
 output_directory = "crawled_articles"
@@ -13,9 +14,14 @@ output_directory = "crawled_articles"
 if not path.isdir(output_directory):
     os.mkdir(output_directory)
 
-for category in ["politics", "society", "economy", "culture", "international"]:
-    news = open(path.join(input_directory, category + ".csv"), "r")
-    news_reader = csv.reader(news, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+for category in ["politics", "economy", "culture", "international"]:
+    news_r = open(path.join(input_directory, category + ".csv"), "r")
+    news_reader = csv.reader(news_r, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+    news_w = open(path.join(input_directory, category + "_with_summary.csv"), "w")
+    news_writer = csv.writer(news_w, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    news_writer.writerow(["title", "summary", "time", "url"])
+
     row_number = -1
     for row in news_reader:
         row_number += 1
@@ -26,16 +32,23 @@ for category in ["politics", "society", "economy", "culture", "international"]:
             continue
         html = requests.get(row[-1]).content
         soup = BeautifulSoup(html, "html.parser")
-        article = soup.find_all("div", {"class":"article-body__body"})
-        if not article:
+        article = soup.find("article", {"class":"single_article"})
+
+        if article is None:
             temp = open(fname, 'w')
             temp.close()
             continue
-        article = article[0]
+
+        summary = article.find("h2", {"class":"article__lead"}).text.strip()
+        news_writer.writerow([row[0], summary, row[1], row[2]])
+
+        article = article.find("div", {"class": "paragraph"})
         text = []
         for paragraph in article.find_all("p"):
             text.append(paragraph.text) 
         with open(fname, 'w') as f:
             f.write("\n".join(text))
         timelibrary.sleep(5)
-    news.close()
+
+    news_r.close()
+    news_w.close()
