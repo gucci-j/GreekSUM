@@ -33,14 +33,15 @@ for category in ["politics", "economy", "culture", "international"]:
         html = requests.get(row[-1]).content
         soup = BeautifulSoup(html, "html.parser")
         article = soup.find("article", {"class":"single_article"})
+        summary = article.find("h2", {"class":"article__lead"})
 
-        if article is None:
+        if article is None or summary is None:
             temp = open(fname, 'w')
             temp.close()
             continue
 
-        summary = article.find("h2", {"class":"article__lead"}).text.strip()
-        news_writer.writerow([row[0], summary, row[1], row[2]])
+        summary = summary.text.strip()
+        summary = article.find("h2", {"class":"article__lead"})
 
         article = article.find("div", {"class": "paragraph"})
         text = []
