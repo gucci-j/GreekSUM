@@ -17,7 +17,7 @@ from random import shuffle
 import os
 import json
 
-path_parsed = './data/sum_data/parsed/'
+path_parsed = './data/parsed/'
 files = os.listdir(path_parsed)
 file2doc = {}
 files_abstract_as_summary = []
@@ -78,8 +78,8 @@ files_abstract_as_summary = [file for file in files_abstract_as_summary if file 
 files_title_as_summary = [file for file in files_title_as_summary if file not in file_to_remove_duplicates]
 
 
-n_test = 10000
-n_valid = 10000
+n_test = 500
+n_valid = 0
 n_train_abstract = len(files_abstract_as_summary) - n_valid - n_test
 n_train_titles = len(files_title_as_summary) - n_valid - n_test
 

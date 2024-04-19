@@ -7,13 +7,13 @@ import time as timelibrary
 from os import path
 
 base_url = "https://www.news247.gr/<category>/page/"
-output_directory = "./"
+output_directory = "./data"
 categories = {"politiki": "politics", "oikonomia": "economy", "politismos": "culture", "kosmos": "international"}
 for category, category_fname in categories.items():
     news = open(path.join(output_directory, category_fname + ".csv"), "w")
     news_writer = csv.writer(news, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
     news_writer.writerow(["title", "time", "url"])
-    for i in range(2, 1001):
+    for i in range(2, 11):
         html = requests.get(base_url.replace("<category>", category) + str(i)).content
         soup = BeautifulSoup(html, "html.parser")
         articles = soup.find_all("article")

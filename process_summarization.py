@@ -12,7 +12,7 @@ from clean_text import cleaner
 
 
 zip_path = "./data/sum_data.zip"
-extract_dir = "./data/sum_data"
+extract_dir = "./data"
 
 if not os.path.isdir(extract_dir):
     with zipfile.ZipFile(zip_path, 'r') as zip_ref:
@@ -20,7 +20,7 @@ if not os.path.isdir(extract_dir):
 
 path_articles = os.path.join(extract_dir,'crawled_articles')
 articles = os.listdir(path_articles)
-title_abstract = {'culture':'culture.csv','economy':'economy.csv','international':'international.csv','politics':'politics.csv','society':'society.csv'}
+title_abstract = {'culture':'culture_with_summary.csv','economy':'economy_with_summary.csv','international':'international_with_summary.csv','politics':'politics_with_summary.csv'}
 
 
 path_parsed = os.path.join(extract_dir,'parsed/')
@@ -49,6 +49,7 @@ for article in articles:
         if key in article:
             category = key
     ind = int(article[article.find("_")+1:]) - 1
+    print(category, article, ind)
     df = dfs.get(category)
     row = df.loc[ind]
     # title,summary,time,url

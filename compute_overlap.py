@@ -41,7 +41,7 @@ overlap_path = "./data/overlap"
 if not os.path.isdir(overlap_path):
     os.mkdir(overlap_path)
 
-path_to_docs = './data/sum_data/parsed/'
+path_to_docs = './data/parsed/'
 
 docnames = os.listdir(path_to_docs)
 

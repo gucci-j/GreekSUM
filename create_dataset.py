@@ -4,7 +4,7 @@ import re
 
 def generate_dataset(in_path, to_path, dataset_type):
 
-    path_dir = "./data/sum_data/parsed"
+    path_dir = "./data/parsed"
     train_file=os.path.join(in_path,'train.txt')
     valid_file=os.path.join(in_path,'valid.txt')
     test_file=os.path.join(in_path,'test.txt')
@@ -18,7 +18,7 @@ def generate_dataset(in_path, to_path, dataset_type):
     test_task_path = os.path.join(to_path,'test-{}.txt'.format(dataset_type))
     test_article_path = os.path.join(to_path,'test-article.txt')
 
-    dc = {"train":[train_file, train_task_path, train_article_path], "valid":[valid_file, valid_task_path, valid_article_path], "test":[test_file, test_task_path, test_article_path]}
+    dc = {"train":[train_file, train_task_path, train_article_path], "test":[test_file, test_task_path, test_article_path]}
     for k in dc.keys():
         lst = dc.get(k)
         fr = open(lst[0],"r")
@@ -47,7 +47,7 @@ def generate_dataset(in_path, to_path, dataset_type):
 
 def generate_classification(in_path, to_path):
 
-    path_dir = "./data/sum_data/parsed"
+    path_dir = "./data/parsed"
     train_file=os.path.join(in_path,'train.txt')
     valid_file=os.path.join(in_path,'valid.txt')
     test_file=os.path.join(in_path,'test.txt')
@@ -61,7 +61,7 @@ def generate_classification(in_path, to_path):
     test_task_path = os.path.join(to_path,'test.sent')
     test_label_path = os.path.join(to_path,'test.label')
 
-    dc = {"train":[train_file, train_task_path, train_label_path], "valid":[valid_file, valid_task_path, valid_label_path], "test":[test_file, test_task_path, test_label_path]}
+    dc = {"train":[train_file, train_task_path, train_label_path],  "test":[test_file, test_task_path, test_label_path]}
     categories = ["economy","politics","society","international","culture"]
     category2id = {k:i for i, k in enumerate(categories)}
     id2category = {i:k for i, k in enumerate(categories)}
@@ -91,8 +91,8 @@ def generate_classification(in_path, to_path):
 path_split_title="./splits_title_as_summary"
 path_split_abstract="./splits_abstract_as_summary"
 
-path_title="./title/summarization_data_title"
-path_abstract="./abstract/summarization_data_abstract"
+path_title="./data/title/"
+path_abstract="./data/abstract/"
 path_classification="./classification"
 
 if not os.path.isdir(path_classification):
